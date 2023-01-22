@@ -4,6 +4,7 @@ syntax = "proto3";
 service Haberdasher {
   // MakeHat produces a hat of mysterious, randomly-selected color!
   rpc MakeHat(Size) returns (Hat);
+  rpc HatError(Size) returns (Hat);
 }
 
 // Size of a Hat, in inches.

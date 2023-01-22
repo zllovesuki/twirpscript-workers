@@ -50,6 +50,18 @@ export async function MakeHat(
   return Hat.decode(response);
 }
 
+export async function HatError(
+  size: Size,
+  config?: ClientConfiguration
+): Promise<Hat> {
+  const response = await PBrequest(
+    "/Haberdasher/HatError",
+    Size.encode(size),
+    config
+  );
+  return Hat.decode(response);
+}
+
 //========================================//
 //        Haberdasher JSON Client         //
 //========================================//
@@ -69,6 +81,18 @@ export async function MakeHatJSON(
   return HatJSON.decode(response);
 }
 
+export async function HatErrorJSON(
+  size: Size,
+  config?: ClientConfiguration
+): Promise<Hat> {
+  const response = await JSONrequest(
+    "/Haberdasher/HatError",
+    SizeJSON.encode(size),
+    config
+  );
+  return HatJSON.decode(response);
+}
+
 //========================================//
 //              Haberdasher               //
 //========================================//
@@ -81,6 +105,7 @@ export interface Haberdasher<Context = unknown> {
    * MakeHat produces a hat of mysterious, randomly-selected color!
    */
   MakeHat: (size: Size, context: Context) => Promise<Hat> | Hat;
+  HatError: (size: Size, context: Context) => Promise<Hat> | Hat;
 }
 
 export function createHaberdasher<Context>(service: Haberdasher<Context>) {
@@ -90,6 +115,12 @@ export function createHaberdasher<Context>(service: Haberdasher<Context>) {
       MakeHat: {
         name: "MakeHat",
         handler: service.MakeHat,
+        input: { protobuf: Size, json: SizeJSON },
+        output: { protobuf: Hat, json: HatJSON },
+      },
+      HatError: {
+        name: "HatError",
+        handler: service.HatError,
         input: { protobuf: Size, json: SizeJSON },
         output: { protobuf: Hat, json: HatJSON },
       },

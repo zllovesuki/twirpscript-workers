@@ -1,0 +1,6 @@
+name = "twirpscript"
+main = "dist/index.mjs"
+compatibility_date = "2023-01-21"
+
+[build]
+command = "npm run build"
